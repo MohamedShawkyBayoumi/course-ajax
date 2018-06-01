@@ -37,16 +37,8 @@
 
             responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
         }
-
-
         
-        const articleRequest = new XMLHttpRequest();
-        articleRequest.onload = addArticles;
-        articleRequest.open('GET', `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=41d8aaa226a94c15948201520d1e9922`);
-        articleRequest.send();
-
-        function addArticles (){
-            const data = JSON.parse(this.responseText); 
+        function addArticles (data){
             let htmlContent = '';
 
             if(data.response && data.response.docs && data.response.docs.length > 1){
@@ -65,6 +57,11 @@
 
             responseContainer.insertAdjacentHTML('beforeend', htmlContent);
         }
+
+
+        $.ajax({
+            url: `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=41d8aaa226a94c15948201520d1e9922`
+        }).done(AddArticles);
         
     });
 })();
